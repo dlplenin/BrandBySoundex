@@ -1,0 +1,43 @@
+﻿@model IEnumerable<BrandBySoundex.Models.Brand>
+
+@{
+    ViewData["Title"] = "Indice";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Crear nueva marca</a>
+</p>
+
+<form asp-controller="Brands" asp-action="Index" method="get">
+    <p>
+        Marca: <input type="text" name="SearchString" autocomplete="off" />
+        <input type="submit" value="Buscar" />
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Marca)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marca)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+@*                <a asp-action="Details" asp-route-id="@item.Id">Detalle</a> |
+*@                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
