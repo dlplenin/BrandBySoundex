@@ -12,6 +12,7 @@ namespace BrandBySoundex.Data
         public BrandBySoundexContext (DbContextOptions<BrandBySoundexContext> options)
             : base(options)
         {
+            Database.Migrate();
         }
 
         public DbSet<Brand> Brand { get; set; }

@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "secretStore": "AzureAppSettings",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:BrandBySoundexContext"
+    }
+  }
+}
