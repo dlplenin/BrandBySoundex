@@ -20,5 +20,12 @@ namespace BrandBySoundex.Data
         {
             modelBuilder.Entity<Brand>(entity => { entity.HasIndex(brand => (new { brand.Marca })).IsUnique(); });
         }
+
+        //[DbFunction("SqlServer", "SOUNDEX")]
+        [DbFunction(Name = "SoundEx", IsBuiltIn = true)]
+        public static string Soundex(string s) => throw new Exception();
+
+        [DbFunction(Name = "Difference", IsBuiltIn = true)]
+        public static int Difference(string expre1, string expre2) => throw new Exception();
     }
 }

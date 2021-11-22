@@ -4,7 +4,7 @@
     ViewData["Title"] = "Indice";
 }
 
-<h1>Index</h1>
+<h1>Indice</h1>
 
 <p>
     <a asp-action="Create">Crear nueva marca</a>
@@ -13,6 +13,18 @@
 <form asp-controller="Brands" asp-action="Index" method="get">
     <p>
         Marca: <input type="text" name="SearchString" autocomplete="off" />
+
+        @{    
+            var listitems = new List<SelectListItem>();
+            listitems.Add(new SelectListItem() { Text = ">= 0 - Incluye coicidencias Nulas", Value="0"});
+            listitems.Add(new SelectListItem() { Text = ">= 1 - Incluye coicidencias bajas", Value="1"});
+            listitems.Add(new SelectListItem() { Text = ">= 2 - Incluye coicidencias Medias", Value="2"});
+            listitems.Add(new SelectListItem() { Text = ">= 3 - Incluye coicidencias Altas", Value="3", Selected = true});
+            listitems.Add(new SelectListItem() { Text = "= 4 - Incluye coicidencias similares e identicas", Value="4"});
+        }
+
+        @Html.DropDownList("drop_strict_comparision", listitems)
+
         <input type="submit" value="Buscar" />
     </p>
 </form>
@@ -23,6 +35,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Marca)
             </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.DifferenceSoundex)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -31,6 +46,15 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Marca)
+            </td>
+            <td class="text-center">
+                @{
+                    bool existsSearchString = (bool)ViewData["ExistsSearchString"];
+                    var displayType = existsSearchString ? "" : "display:none";
+                    <span style="@displayType">
+                    @Html.DisplayFor(modelItem => item.DifferenceSoundex)
+                    </span>
+                }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |

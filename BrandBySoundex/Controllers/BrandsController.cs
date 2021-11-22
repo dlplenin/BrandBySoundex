@@ -1,4 +1,4 @@
-﻿using System;
+﻿//using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,17 +20,32 @@ namespace BrandBySoundex.Controllers
         }
 
         // GET: Brands
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, int drop_strict_comparision)
         {
-            var movies = from m in _context.Brand
+            var existsSearchString = false;
+            var brands = from m in _context.Brand
                          select m;
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                movies = movies.Where(s => s.Marca!.Contains(searchString));
+                existsSearchString = true;
+                //movies = movies.Where(s => s.Marca!.Contains(searchString));
+                //brands = brands
+                //    .Where(e => BrandBySoundexContext.Soundex(e.Marca) == BrandBySoundexContext.Soundex(searchString));
+
+                brands = brands
+                    .Where(e => BrandBySoundexContext
+                    .Difference(e.Marca, searchString) >= drop_strict_comparision)
+                    .Select(brand => new Brand
+                    {
+                        Id = brand.Id,
+                        Marca = brand.Marca,
+                        DifferenceSoundex = BrandBySoundexContext.Difference(brand.Marca, searchString)
+                    });
             }
 
-            return View(await movies.ToListAsync());
+            ViewData["ExistsSearchString"] = existsSearchString;
+            return View(await brands.ToListAsync());
         }
 
         // GET: Brands/Details/5
