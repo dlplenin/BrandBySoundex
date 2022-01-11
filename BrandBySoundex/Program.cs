@@ -27,3 +27,18 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+//Marcas de ejemplo:
+//Braum
+//Braun
+//Broom
+//Broon
+//Brown
+//Browne
+//casa
+//case
+//cosa
+//kase
+//keis
+//keys
+//queis
